@@ -42,14 +42,56 @@ exports.createUser = function(user, callback) {
 
 exports.authUser = function(user, callback) {
     let args = [user.email, user.password];
-    let query = "SELECT fn_auth_user(?,  ?) AS n";
+    let query = "SELECT fn_auth_user(?,  ?) AS id";
     db.query(query, args, (err, results) => {
-        const ok = results[0].n === 1;
-        if (err || !ok) {
-            callback(null, err);
+        const id = results[0].id
+        if (err || id === null) {
+            callback(null, {err: err})
         } else {
-            const token = "123";
-            callback(token, null);
+            callback(id, null);
         }
     })
 }
+
+exports.getUser = function(user, callback) {
+    let args = [user.id];
+    let query = "SELECT * FROM vw_users WHERE id = ?";
+    db.query(query, args, (err, results)=>{
+        if (err) {
+            callback(null, {err: err})
+        } else {
+            user.name = results[0].name;
+            user.surname = results[0].surname;
+            user.email = results[0].email;
+            callback(user, null);
+        }
+    })
+
+}
+//---------------------------- Get all users ------ ///
+
+async function getAll() {
+    return await db.user.findAll();
+}
+
+exports.getAll = function (req, res, next) {
+    getAll()
+        .then(users => res.json(users))
+        .catch(next);
+}
+
+/*exports.getAllUsers = function(user, callback) {
+    let args = [user.id];
+    let query = "SELECT * FROM vw_users WHERE id = ?";
+    db.query(query, args, (err, results)=>{
+        if (err) {
+            callback(null, {err: err})
+        } else {
+            user.name = results[0].name;
+            user.surname = results[0].surname;
+            user.email = results[0].email;
+            callback(user, null);
+        }
+    })
+
+} */

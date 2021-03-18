@@ -3,8 +3,9 @@ const user = require("./user.js")
 let routes = [
     {method: "POST", endpoint: "/users", f: user.create},
     {method: "GET", endpoint: "/auth", f: user.auth},
-    {method: "GET", endpoint: "/users/:id", f: user.get},
-    {method: "PUT", endpoint: "/users/:id", f: user.update},
+    {method: "GET", endpoint: "/users", f: user.get},
+    {method: "GET", endpoint: "/users", f: user.getAll},
+    {method: "PUT", endpoint: "/users", f: user.update},
 ]
 
 

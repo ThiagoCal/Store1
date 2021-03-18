@@ -3,6 +3,9 @@ SET DEFAULT_STORAGE_ENGINE = INNODB;
 DROP TABLE IF EXISTS tb_user;
 
 DROP FUNCTION IF EXISTS fn_insert_user;
+DROP FUNCTION IF EXISTS fn_auth_user;
+DROP VIEW IF EXISTS vw_users;
+DROP VIEW IF EXISTS vw_allusers;
 
 CREATE TABLE tb_user (
     pk_id           INT UNSIGNED    NOT NULL AUTO_INCREMENT,
@@ -14,6 +17,16 @@ CREATE TABLE tb_user (
     PRIMARY KEY (pk_id),
     CONSTRAINT uq_email UNIQUE (str1_email)
 );
+
+CREATE VIEW vw_users AS
+SELECT pk_id AS id, str1_name AS name, str1_surname AS surname, str1_email AS email
+FROM tb_user;
+
+CREATE VIEW vw_allusers AS
+SELECT DISTINCT pk_id AS id, str1_name AS name, str1_surname AS surname, str1_email AS email
+FROM tb_user;
+
+
 
 DELIMITER //
 CREATE FUNCTION fn_insert_user(
@@ -37,13 +50,13 @@ CREATE FUNCTION fn_auth_user(
 )
 RETURNS INT UNSIGNED
 BEGIN
-    DECLARE n INT;
-    SELECT COUNT(*) INTO n
+    DECLARE id INT;
+    SELECT u.pk_id INTO id
     FROM tb_user AS u
     WHERE str1_email = u.str1_email
     AND str2_password = u.str2_password;
    
-    RETURN n;
+    RETURN id;
 END//
 DELIMITER ;
 
