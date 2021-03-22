@@ -54,6 +54,8 @@ function validateCreateUser(user){
 exports.create = function(req, res) {
     const user = req.body;
     
+    console.log(user);
+
     // validation
     let result = validateCreateUser(user);
     if (!result.ok) {

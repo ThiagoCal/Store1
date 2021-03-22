@@ -1,11 +1,13 @@
 
 const dal = require("./dal/dal.js");
 const routes = require("./handlers/routes.js")
-const express = require("express");
-const app = express();
 const fs = require("fs");
 
+const express = require("express");
+const cors = require("cors");
 
+const app = express();
+app.use(cors());
 app.use(express.json());
 
 
