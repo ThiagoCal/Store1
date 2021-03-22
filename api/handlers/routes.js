@@ -2,12 +2,11 @@ const user = require("./user.js")
 
 let routes = [
     {method: "POST", endpoint: "/users", f: user.create},
-    {method: "GET", endpoint: "/auth", f: user.auth},
+    {method: "POST", endpoint: "/auth", f: user.auth},
     {method: "GET", endpoint: "/users", f: user.get},
     {method: "GET", endpoint: "/allusers", f: user.getAll},
     {method: "PUT", endpoint: "/users", f: user.update},
 ]
-
 
 exports.register = function(app) {
     for (i=0; i<routes.length; i++) {

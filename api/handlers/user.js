@@ -78,15 +78,17 @@ exports.create = function(req, res) {
 // AUTH
 // --------------------------------------------------
 function validateAuthUser(user){
-    let ok = nonemptystring(user.email);
-    ok = ok || checkemail(user.email);
-    ok = ok || nonemptystring(user.password);
-    return ok;
+    let err = emptystring(user.email);
+    err = err || checkemail(user.email);
+    err = err || emptystring(user.password);
+    return err;
 }
 
 exports.auth = function (req, res) {
     const user = req.body;
     
+    console.log(user);
+
     // validation
     let ok = validateAuthUser(user);
     if (!ok) {
