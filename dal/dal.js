@@ -5,13 +5,13 @@ let mysql = require("mysql");
 
 let db;
 
-exports.setup = function() {
+exports.setup = function(config) {
     db = mysql.createConnection({
-        host: "localhost",
-        port: "3306",
-        user: "root" ,
-        password: "",
-        database: "store"
+        host: config.host,
+        port: config.port,
+        user: config.user,
+        password: config.password,
+        database: config.database
     });
     db.connect((err) => {
         if (err) {
@@ -70,28 +70,31 @@ exports.getUser = function(user, callback) {
 }
 //---------------------------- Get all users ------ ///
 
-async function getAll() {
-    return await db.user.findAll();
-}
-
-exports.getAll = function (req, res, next) {
-    getAll()
-        .then(users => res.json(users))
-        .catch(next);
-}
-
-/*exports.getAllUsers = function(user, callback) {
-    let args = [user.id];
-    let query = "SELECT * FROM vw_users WHERE id = ?";
-    db.query(query, args, (err, results)=>{
+exports.getAll = function(callback) {
+    let query = "SELECT * FROM vw_users";
+    db.query(query, (err, results)=>{
         if (err) {
             callback(null, {err: err})
         } else {
-            user.name = results[0].name;
-            user.surname = results[0].surname;
-            user.email = results[0].email;
-            callback(user, null);
+            let users = [];
+            for (let i = 0; i < results.length; i++){
+                let user = {id:results[i].id,
+                            name:results[i].name,
+                            surname:results[i].surname,
+                            email:results[i].email,
+                }
+                users.push(user);
+            }
+            callback(users, null);
         }
     })
+} 
 
-} */
+exports.updateUser = function(user, callback) {
+    let args = [user.id, user.name, user.surname, user.email, user.password];
+    let query = "CALL pc_update_user(?, ?, ?, ?, ?);";
+    console.log(user);
+    db.query(query, args, (err, results) => {
+     callback(err);
+    });
+}

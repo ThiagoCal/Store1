@@ -4,7 +4,7 @@ let routes = [
     {method: "POST", endpoint: "/users", f: user.create},
     {method: "GET", endpoint: "/auth", f: user.auth},
     {method: "GET", endpoint: "/users", f: user.get},
-    {method: "GET", endpoint: "/users", f: user.getAll},
+    {method: "GET", endpoint: "/allusers", f: user.getAll},
     {method: "PUT", endpoint: "/users", f: user.update},
 ]
 

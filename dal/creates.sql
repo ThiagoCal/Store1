@@ -6,6 +6,7 @@ DROP FUNCTION IF EXISTS fn_insert_user;
 DROP FUNCTION IF EXISTS fn_auth_user;
 DROP VIEW IF EXISTS vw_users;
 DROP VIEW IF EXISTS vw_allusers;
+DROP PROCEDURE IF EXISTS pc_update_user;
 
 CREATE TABLE tb_user (
     pk_id           INT UNSIGNED    NOT NULL AUTO_INCREMENT,
@@ -60,4 +61,18 @@ BEGIN
 END//
 DELIMITER ;
 
+DELIMITER //
+CREATE PROCEDURE pc_update_user(
+    pk_id INT UNSIGNED,
+    str1_name VARCHAR(200),
+    str1_surname VARCHAR(200),
+    str1_email VARCHAR(200),
+    str2_password VARCHAR(1000)
+)
+BEGIN
+    UPDATE tb_user 
+    SET    str1_name = str1_name, str1_surname = str1_surname, str1_email = str1_email, str2_password = str2_password 
+    WHERE  tb_user.pk_id = pk_id;
+END//
+DELIMITER ;
 
