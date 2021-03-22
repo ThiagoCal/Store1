@@ -1,23 +1,20 @@
 console.log("Abriu o controller.js");
 
-let req = {
-    name: "Renan",
-    surname: "Almeida",
-    email: "renan@gmail.com",
-    password: "renan123",
-};
-
-// console.log(req);
-
 $.ajax("http://localhost:3000/users", {
-    contentType: 
+    method: "POST",
+    contentType: "application/json",
+    data: JSON.stringify({
+        name: "Renan",
+        surname: "Almeida",
+        email: "renaasdasdnasdasdasdasd@gmail.com",
+        password: "renan123",
+    }),
+    success: (data) => {
+        console.log("sucesso", data);
+    },
+    error: (err) => {
+        console.log("erro");
+        console.log(err.status);
+        console.log(err.responseText);
+    },
 });
-
-
-
-// (data) => {
-//     console.log("sucess", data);
-// }, "json").fail((res) => {
-//     console.log(res);
-//     console.log(res.responseText);
-// })
