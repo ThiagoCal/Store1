@@ -34,21 +34,33 @@ function getUser(token, success, error) {
 let user = {
     name: "Renan",
     surname: "Almeida",
-    email: "nugget2@gmail.com",
+    email: "nugget10@gmail.com",
     password: "123",
 }
 
-createUser(user, (data) => {
-    authUser(user, (data) => {
-        let token = data.token;
-        getUser(token, (data) => {
-            console.log(data);
-        }, (err) => {
-            console.log(err.status, err.responseText);
-        })
-    }, (err) => {
-        console.log(err.status, err.responseText);
-    });
-}, (err) => {
-    console.log(err.status, err.responseText);
-});
+// createUser(user, (data) => {
+//     authUser(user, (data) => {
+//         let token = data.token;
+//         getUser(token, (data) => {
+//             console.log(data);
+//         }, (err) => {
+//             console.log(err.status, err.responseText);
+//         })
+//     }, (err) => {
+//         console.log(err.status, err.responseText);
+//     });
+// }, (err) => {
+//     console.log(err.status, err.responseText);
+// });
+
+let pCreateUser = (user) => new Promise((resolve, reject) => createUser(user, resolve, reject));
+
+let pAuthUser = (user) => new Promise((resolve, reject) => authUser(user, resolve, reject));
+
+let pGetUser = (token) => new Promise((resolve, reject) => getUser(token, resolve, reject));
+
+pCreateUser(user)
+    .then(() => { return pAuthUser(user); })
+    .then((tokenData) => { return pGetUser(tokenData.token); })
+    .then((userData) => { console.log(userData); })
+    .catch((err) => { console.log(err.status, err.responseText); });
