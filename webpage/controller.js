@@ -37,16 +37,34 @@ function getUser(token) {
     });
 }
 
-let user = {
-    name: "Renan",
-    surname: "Almeida",
-    email: "nugget12@gmail.com",
-    password: "123",
-}
+$(document).ready(() => {
+    $("#buttonsignup").click(() => {
+        let user = {
+            name: $("#namesignup").val(),
+            surname: $("#surnamesignup").val(),
+            email: $("#emailsignup").val(),
+            password: $("#passwordsignup").val(),
+        };
+        createUser(user).then(() => {
+            alert("Usuário criado!");
+        }).catch((err) => {
+            console.log(err);
+            alert(err.responseText);
+        });
+    });
 
-createUser(user)
-    .then(() => { return authUser(user); })
-    .then((tokenData) => { return getUser(tokenData.token); })
-    .then((userData) => { console.log(userData); })
-    .catch((err) => { console.log(err.status, err.responseText); })
-;
+    $("#buttonlogin").click(() => {
+        let user = {
+            email: $("#emaillogin").val(),
+            password: $("#passwordlogin").val(),
+        };
+        authUser(user).then((res) => {
+            let token = res.token;
+            alert("Usuário logado!");
+            console.log(token);
+        }).catch((err) => {
+            console.log(err);
+            alert(err.responseText);
+        });
+    });
+});
