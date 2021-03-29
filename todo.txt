@@ -1,0 +1,12 @@
+
+- registrar produtos no banco de dados
+
+- API
+	- listar todos os produtos
+	- comprar produtos
+	- listar produtos comprados pelo usuário
+
+- Site
+	- listar todos os produtos
+	- página da compra
+	- listar produtos comprados pelo usuário
