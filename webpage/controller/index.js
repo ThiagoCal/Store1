@@ -24,7 +24,7 @@ function login() {
         let token = res.token;
         alert("Usuário logado!");
         sessionStorage.setItem("token", token);
-        window.location.href='user.html';
+        window.location.href = "user.html";
     }).catch((err) => {
         console.log(err);
         alert(err.responseText);
