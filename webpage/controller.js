@@ -1,70 +1,37 @@
-console.log("Abriu o controller.js");
+console.log("Loaded controller.js");
 
-let baseURL = "http://localhost:3000"
-
-function createUser(user) {
-    return new Promise((resolve, reject) => {
-        $.ajax(baseURL + "/users", {
-            method: "POST",
-            contentType: "application/json",
-            data: JSON.stringify(user),
-            success: resolve,
-            error: reject,
-        });
+function signup() {
+    let user = {
+        name: $("#namesignup").val(),
+        surname: $("#surnamesignup").val(),
+        email: $("#emailsignup").val(),
+        password: $("#passwordsignup").val(),
+    };
+    users.create(user).then(() => {
+        alert("Usuário criado!");
+    }).catch((err) => {
+        console.log(err);
+        alert(err.responseText);
     });
 }
 
-function authUser(user) {
-    return new Promise((resolve, reject) => {
-        $.ajax(baseURL + "/auth", {
-            method: "POST",
-            contentType: "application/json",
-            data: JSON.stringify(user),
-            success: resolve,
-            error: reject,
-        });
-    });
-}
-
-function getUser(token) {
-    return new Promise((resolve, reject) => {
-        $.ajax(baseURL + "/users", {
-            method: "GET",
-            headers: {Authorization: "Bearer " + token},
-            success: resolve,
-            error: reject,
-        });
+function login() {
+    let user = {
+        email: $("#emaillogin").val(),
+        password: $("#passwordlogin").val(),
+    };
+    users.auth(user).then((res) => {
+        let token = res.token;
+        alert("Usuário logado!");
+        sessionStorage.setItem("token", token);
+        window.location.href='user.html';
+    }).catch((err) => {
+        console.log(err);
+        alert(err.responseText);
     });
 }
 
 $(document).ready(() => {
-    $("#buttonsignup").click(() => {
-        let user = {
-            name: $("#namesignup").val(),
-            surname: $("#surnamesignup").val(),
-            email: $("#emailsignup").val(),
-            password: $("#passwordsignup").val(),
-        };
-        createUser(user).then(() => {
-            alert("Usuário criado!");
-        }).catch((err) => {
-            console.log(err);
-            alert(err.responseText);
-        });
-    });
-
-    $("#buttonlogin").click(() => {
-        let user = {
-            email: $("#emaillogin").val(),
-            password: $("#passwordlogin").val(),
-        };
-        authUser(user).then((res) => {
-            let token = res.token;
-            alert("Usuário logado!");
-            console.log(token);
-        }).catch((err) => {
-            console.log(err);
-            alert(err.responseText);
-        });
-    });
+    $("#buttonsignup").click(signup);
+    $("#buttonlogin").click(login);
 });
