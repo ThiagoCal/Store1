@@ -94,7 +94,67 @@ exports.updateUser = function(user, callback) {
     let args = [user.id, user.name, user.surname, user.email, user.password];
     let query = "CALL pc_update_user(?, ?, ?, ?, ?);";
     console.log(user);
+    db.query(query, args, callback);
+}
+
+//-----------------Product DAL ----------------///
+
+exports.createProduct = function(product, callback) {
+    let args = [product.name, product.brand, product.model, product.price, product.img];
+    let query = "SELECT fn_insert_product(?, ?, ?, ?, ?) AS id";
+    console.log(product);
     db.query(query, args, (err, results) => {
-     callback(err);
+        if (err) {
+            callback(null, err);
+        } else {
+            product.id = results[0].id;
+            callback(product, null);
+        }
     });
 }
+
+exports.getProduct = function(product, callback) {
+    let args = [product.id];
+    let query = "SELECT * FROM vw_product WHERE id = ?";
+    db.query(query, args, (err, results)=>{
+        if (err) {
+            callback({err: err})
+        } else {
+            product.name = results[0].name;
+            product.brand = results[0].brand;
+            product.model = results[0].model;
+            product.price = results[0].price;
+            product.img = results[0].img;
+            callback(null);
+        }
+    })
+
+}
+
+exports.getAllProducts = function(callback) {
+    let query = "SELECT * FROM vw_product";
+    db.query(query, (err, results)=>{
+        if (err) {
+            callback(null, {err: err})
+        } else {
+            let products = [];
+            for (let i = 0; i < results.length; i++){
+                let products = {id:results[i].id,
+                            name:results[i].name,
+                            brand:results[i].brand,
+                            model:results[i].model,
+                            img:results[i].img,
+                }
+                users.push(products);
+            }
+            callback(products, null);
+        }
+    })
+} 
+
+exports.updateProduct = function(product, callback) {
+    let args = [product.id, product.name, product.brand, product.model, product.price, product.img];
+    let query = "CALL pc_update_product(?, ?, ?, ?, ?, ?);";
+    console.log(product);
+    db.query(query, args, callback);
+};

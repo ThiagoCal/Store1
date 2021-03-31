@@ -157,7 +157,7 @@ function validateUpdateUser(user) {
     return validateCreateUser(user);
 }
 
-exports.update = function UpdateUser(req, res) {
+exports.update = function (req, res) {
     let user = req.body;
     let ok = validateUpdateUser(user);
     if (!ok) {
