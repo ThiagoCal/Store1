@@ -1,4 +1,4 @@
-console.log("Loaded controller.js");
+console.log("Loaded controller/index.js");
 
 function signup() {
     let user = {

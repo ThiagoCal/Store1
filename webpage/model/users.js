@@ -1,6 +1,4 @@
 
-const baseURL = "http://localhost:3000";
-
 const users = {};
 
 users.create = function(user) {

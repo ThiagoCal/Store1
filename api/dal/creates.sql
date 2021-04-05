@@ -130,3 +130,18 @@ BEGIN
     WHERE  tb_product.pk_id = pk_id;
 END//
 DELIMITER ;
+
+-- :---------------  DB ORDER ------: --------------------------
+
+CREATE TABLE tb_order (
+    pk_id         INT UNSIGNED    NOT NULL AUTO_INCREMENT,
+    fk_id_user    INT UNSIGNED    NOT NULL,
+    fk_id_product INT UNSIGNED    NOT NULL,
+    int1_quantity INT             NOT NULL,
+    dec_price     DECIMAL(13,2)   NOT NULL,
+    dtm_date      DATETIME        NOT NULL,
+
+    PRIMARY KEY (pk_id),
+    CONSTRAINT fk_user    FOREIGN KEY (fk_id_user)    REFERENCES tb_user(pk_id),
+    CONSTRAINT fk_product FOREIGN KEY (fk_id_product) REFERENCES tb_product(pk_id)
+);

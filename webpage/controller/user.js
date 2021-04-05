@@ -1,4 +1,4 @@
-console.log("Loaded user_controller.js");
+console.log("Loaded controller/user.js");
 
 let token;
 
@@ -13,30 +13,24 @@ function getinfo(token) {
     })
 }
 
-// <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
-//     <title>Placeholder</title>
-//     <rect width="100%" height="100%" fill="#55595c"/>
-//     <img src="https://saborizatti.com.br/wp-content/uploads/2020/12/banana-nanica.png"></img>
-// </svg>
+function gotoproduct(id) {
+    sessionStorage.setItem("productid", id);
+    window.location.href = "product.html";
+}
 
 function getproduct(product) {
     return `
     <div class="col">
         <div class="card shadow-sm">
-            <div>
-                <img width=200 height=200 class="img-fluid" src="` + product.img + `"></img>
-            </div>
+            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" role="img" onclick=gotoproduct(` + product.id + `)>
+              <rect width="100%" height="100%" fill="#55595c"/>
+              <image xlink:href="` + product.img + `" x="0" y="0" height="100%" width="100%" preserveAspectRatio="none"/>
+            </svg>
 
             <div class="card-body">
                 <h2>` + product.name  + `</h2>
                 <p><i>` + product.brand + ", " + product.model + `</i></p>
                 <p>R$` + product.price.toFixed(2) + `</p>
-                <div class="d-flex justify-content-between align-items-center">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                        <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
