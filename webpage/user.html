@@ -10,6 +10,7 @@
     <script src="jquery.js"></script>
 
     <script src="model/users.js"></script>
+    <script src="model/products.js"></script>
     <script src="controller/user.js"></script>
 
     <title>Store</title>
@@ -56,19 +57,23 @@
 <body style="padding: 25px; margin: 10px;">
     
 <div class="container">
-<div class="row">
-
-    <div class="col-4"></div>
-    <div class="col-4 border border-danger rounded">
-        <b>Name</b> <div id="user-name"></div>
-        <br>
-        <b>Surname</b> <div id="user-surname"></div>
-        <br>
-        <b>Email</b> <div id="user-email"></div>
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4 border border-danger rounded">
+            <b>Name</b> <div id="user-name"></div>
+            <br>
+            <b>Surname</b> <div id="user-surname"></div>
+            <br>
+            <b>Email</b> <div id="user-email"></div>
+        </div>
+        <div class="col-4"></div>
     </div>
-    <div class="col-4"></div>
 
-</div>
+    <div id="products" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        <!-- dynamic -->
+    </div>
+
+
 </div>
 
 </body>

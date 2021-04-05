@@ -102,7 +102,6 @@ exports.get = function (req, res) {
 // GET ALL PRODUCTS
 // --------------------------------------------------
 exports.getAll = function (req, res) {
-      
     dal.getAllProducts((products, err) => {
         if(err !== null) {
             res.status(401).send("Não foi possível recuperar as informações dos produtos");

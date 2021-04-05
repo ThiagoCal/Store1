@@ -139,11 +139,13 @@ exports.getAllProducts = function(callback) {
         } else {
             let products = [];
             for (let i = 0; i < results.length; i++){
-                let product = {id:results[i].id,
-                                name:results[i].name,
-                                brand:results[i].brand,
-                                model:results[i].model,
-                                img:results[i].img,
+                let product = {
+                    id:    results[i].id,
+                    name:  results[i].name,
+                    brand: results[i].brand,
+                    model: results[i].model,
+                    price: results[i].price,
+                    img:   results[i].img,
                 }
                 products.push(product);
             }
