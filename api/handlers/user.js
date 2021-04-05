@@ -159,8 +159,8 @@ function validateUpdateUser(user) {
 
 exports.update = function (req, res) {
     let user = req.body;
-    let ok = validateUpdateUser(user);
-    if (!ok) {
+    let result = validateUpdateUser(user);
+    if (!result.ok)  {
         res.status(400).send("erro de validação!");
         return;
     }

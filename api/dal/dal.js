@@ -139,13 +139,13 @@ exports.getAllProducts = function(callback) {
         } else {
             let products = [];
             for (let i = 0; i < results.length; i++){
-                let products = {id:results[i].id,
-                            name:results[i].name,
-                            brand:results[i].brand,
-                            model:results[i].model,
-                            img:results[i].img,
+                let product = {id:results[i].id,
+                                name:results[i].name,
+                                brand:results[i].brand,
+                                model:results[i].model,
+                                img:results[i].img,
                 }
-                users.push(products);
+                products.push(product);
             }
             callback(products, null);
         }
@@ -156,5 +156,7 @@ exports.updateProduct = function(product, callback) {
     let args = [product.id, product.name, product.brand, product.model, product.price, product.img];
     let query = "CALL pc_update_product(?, ?, ?, ?, ?, ?);";
     console.log(product);
-    db.query(query, args, callback);
+    db.query(query, args, (err,result) =>{
+        callback(err);
+    });
 };

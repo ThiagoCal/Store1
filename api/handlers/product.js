@@ -1,6 +1,6 @@
 const { response } = require("express");
 const dal = require("../dal/dal.js");
-//const token = require("./token.js")
+const token = require("./token.js")
 
 // --------------------------------------------------
 // AUXILIARY
@@ -67,7 +67,7 @@ exports.create = function(req, res) {
         res.status(422).send("erro de validação: "+result.err);
         return;
     }
-
+    product.price = JSON.parse(product.price)/100
     dal.createProduct(product, (product, err) => {
         if(err !== null) {
             if (err.errno === 1062){
@@ -103,7 +103,7 @@ exports.get = function (req, res) {
 // --------------------------------------------------
 exports.getAll = function (req, res) {
       
-    dal.getAll((products, err) => {
+    dal.getAllProducts((products, err) => {
         if(err !== null) {
             res.status(401).send("Não foi possível recuperar as informações dos produtos");
             console.log(err);
@@ -119,7 +119,7 @@ exports.getAll = function (req, res) {
 // UPDATE
 // --------------------------------------------------
 
-function validateUpdateProdutct(product) {
+function validateUpdateProduct(product) {
     return validateCreateProduct(product);
 }
 
@@ -133,14 +133,16 @@ exports.update = function (req, res) {
     if (user.id !== 1){
         res.status(403).send("Usuário não autorizado")
     }
-
-    let ok = validateUpdateProduct(product);
-    if (!ok) {
+    console.log(product)
+    let result = validateUpdateProduct(product);
+    if (!result.ok) {
         res.status(400).send("erro de validação!");
         return;
     } 
-    
-    dal.updateProduct(product, (err) => {
+    product.id = req.params.id;
+
+    product.price = JSON.parse(product.price)/100
+    dal.updateProduct(product, (err) => {i
         if(err !== null) {
             res.status(401).send("Não foi possível atualizar as informações do produto");
             console.log(err);

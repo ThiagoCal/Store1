@@ -10,7 +10,7 @@ let routes = [
     {method: "POST", endpoint: "/products", f: product.create},
     {method: "GET", endpoint: "/products/:id", f: product.get},
     {method: "GET", endpoint: "/products", f: product.getAll},
-    {method: "PUT", endpoint: "/products", f: product.update},
+    {method: "PUT", endpoint: "/products/:id", f: product.update},
 ]
 
 exports.register = function(app) {
