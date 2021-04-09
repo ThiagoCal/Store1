@@ -2,13 +2,15 @@ SET DEFAULT_STORAGE_ENGINE = INNODB;
 
 DROP TABLE IF EXISTS tb_user;
 DROP TABLE IF EXISTS tb_product;
-
+DROP TABLE IF EXISTS tb_order;
 DROP FUNCTION IF EXISTS fn_insert_user;
 DROP FUNCTION IF EXISTS fn_auth_user;
 DROP FUNCTION IF EXISTS fn_insert_product;
+DROP FUNCTION IF EXISTS fn_insert_order;
 DROP VIEW IF EXISTS vw_users;
 DROP VIEW IF EXISTS vw_allusers;
 DROP VIEW IF EXISTS vw_product;
+DROP VIEW IF EXISTS vw_order;
 DROP PROCEDURE IF EXISTS pc_update_user;
 DROP PROCEDURE IF EXISTS pc_update_product;
 
@@ -163,8 +165,10 @@ BEGIN
 END//
 DELIMITER ;
 
-CREATE VIEW vw_orders AS
-SELECT DISTINCT pk_id AS id, fk_id_user AS id_user, fk_id_product AS id_product, int1_quantity AS quantity,
-                dec_price AS price_paid, dtm_date AS date_
-FROM tb_order
+CREATE VIEW vw_order AS
+SELECT DISTINCT o.pk_id AS id, o.fk_id_user AS id_user, o.int1_quantity AS quantity,
+                               o.dec_price  AS price_paid, o.dtm_date AS date_,
+                o.fk_id_product AS id_product, p.str1_name  AS name_, p.str1_brand AS brand,
+                                               p.str1_model AS model, p.str3_img   AS img
+FROM tb_order AS o INNER JOIN tb_product AS p ON o.fk_id_product = p.pk_id
 ORDER BY date_ DESC;
