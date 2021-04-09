@@ -171,10 +171,10 @@ exports.createOrder = function(order, callback) {
     
     db.query(query, args, (err, results) => {
         if (err) {
-            callback(null, err);
+            callback(err);
         } else {
             order.id = results[0].id;
-            callback(order, null);
+            callback(null);
         }
     });
 };

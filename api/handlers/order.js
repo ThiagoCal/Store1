@@ -10,6 +10,11 @@ function emptystring(s) {
     return typeof(s) !== "string" || s === "";
 }
 
+// TODO
+function notpositiveint(n) {
+    return typeof(n) !== "int" || n <= 0;
+}
+
 function checkprice(s) {
     // TODO
     return true;
@@ -19,20 +24,20 @@ function checkprice(s) {
 // --------------------------------------------------
 // HANDLERS
 // --------------------------------------------------
-function validateCreateProduct(product){
+function validateCreateOrder(order){
     let err;
-    if (emptystring(order.product.id)){
-        err = "Campo id do produto não pode ser vazio."
-    }
-    else if(emptystring(order.price)){
-        err = "Campo price do pedido não pode ser vazio."
-    }
-    else if (emptystring(order.quantity)){
-        err = "Campo quantity do pedido não pode ser vazio."
-    }
-    else if (!checkprice(order.price)){
-        err = "Formato de preço inválido."
-    }
+    // if (notpositiveint(order.product.id)){
+    //     err = "Campo id do produto não pode ser vazio."
+    // }
+    // if(emptystring(order.price)){
+    //     err = "Campo price do pedido não pode ser vazio."
+    // }
+    // if (emptystring(order.quantity)){
+    //     err = "Campo quantity do pedido não pode ser vazio."
+    // }
+    // else if (!checkprice(order.price)){
+    //     err = "Formato de preço inválido."
+    // }
     
     return {
         err: err,
@@ -42,6 +47,7 @@ function validateCreateProduct(product){
 
 exports.create = function(req, res) {
     const order = req.body;
+    console.log(order);
     let tk = req.get("Authorization");
     tk = tk.substring(7);
     let user = token.decode(tk);
@@ -54,10 +60,9 @@ exports.create = function(req, res) {
         return;
     }
     order.price = JSON.parse(order.price)/100
-    dal.createrOrder(order, (err) => {
+    dal.createOrder(order, (err) => {
         if(err !== null) {
             res.status(400).send(err);
-            
         } else {
             res.status(201).json({id: order.id});
         }

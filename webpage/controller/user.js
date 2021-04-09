@@ -1,6 +1,6 @@
 console.log("Loaded controller/user.js");
 
-let token;
+let token, _products;
 
 function getinfo(token) {
     return users.getinfo(token).then((user) => {
@@ -18,7 +18,7 @@ function gotoproduct(id) {
     window.location.href = "product.html";
 }
 
-function getproduct(product) {
+function getproduct(i, product) {
     return `
     <div class="col-lg-4 col-md-6 mb-4">
             <div class="card h-100">
@@ -32,21 +32,35 @@ function getproduct(product) {
                         consectetur adipisicing elit. Amet numquam aspernatur!</p>
                     </div>
                 <div class="card-footer">
-                    <button class="btn btn-primary">Buy</button>
+                    <button onclick="buyproduct(` + i + `)" class="btn btn-primary">Buy</button>
                 </div>
             </div>
     </div> 
 `;
 }
 
+function buyproduct(i) {
+    let product = _products[i];
+    let o = {
+        product: product,
+        quantity: 1,
+        price: product.price,
+    };
+    return order.create(token, o).then((order, err) => {
+        alert("Pedido feito!");
+    }).catch((err) => {
+        console.log(err);
+        console.log(err.responseText);
+    })
+}
 
 
 function getproducts() {
-    return products.getall().then((products) => {
-        console.log(products);
+    return products.getall().then((result) => {
+        _products = result;
         let html = "";
-        for (let i = 0; i < products.length; i++) {
-            html += getproduct(products[i]);
+        for (let i = 0; i < _products.length; i++) {
+            html += getproduct(i, _products[i]);
         }
         $("#products").html(html);
     }).catch((err) => {
@@ -57,9 +71,7 @@ function getproducts() {
 
 $(document).ready(() => {
     token = sessionStorage.getItem("token");
-    // sessionStorage.removeItem("token");
     console.log(token);
-
     getinfo(token);
     getproducts();
 });

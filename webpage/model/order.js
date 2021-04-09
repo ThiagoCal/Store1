@@ -1,12 +1,11 @@
 
-const baseURL = "http://localhost:3000";
-
 const order = {};
 
-order.create = function(order) {
+order.create = function(token, order) {
     return new Promise((resolve, reject) => {
         $.ajax(baseURL + "/orders", {
             method: "POST",
+            headers: {Authorization: "Bearer " + token},
             contentType: "application/json",
             data: JSON.stringify(order),
             success: resolve,
