@@ -24,11 +24,11 @@ CREATE TABLE tb_user (
 );
 
 CREATE VIEW vw_users AS
-SELECT pk_id AS id, str1_name AS name, str1_surname AS surname, str1_email AS email
+SELECT pk_id AS id, str1_name AS name_, str1_surname AS surname, str1_email AS email
 FROM tb_user;
 
 CREATE VIEW vw_allusers AS
-SELECT DISTINCT pk_id AS id, str1_name AS name, str1_surname AS surname, str1_email AS email
+SELECT DISTINCT pk_id AS id, str1_name AS name_, str1_surname AS surname, str1_email AS email
 FROM tb_user;
 
 
@@ -96,7 +96,7 @@ CREATE TABLE tb_product (
 );
 
 CREATE VIEW vw_product AS
-SELECT pk_id AS id, str1_name AS name, str1_brand AS brand, str1_model AS model, dec_price AS price, str3_img AS img
+SELECT pk_id AS id, str1_name AS name_, str1_brand AS brand, str1_model AS model, dec_price AS price, str3_img AS img
 FROM tb_product;
 
 DELIMITER //
@@ -114,6 +114,8 @@ BEGIN
     RETURN LAST_INSERT_ID();
 END//
 DELIMITER ;
+
+
 
 DELIMITER //
 CREATE PROCEDURE pc_update_product(
@@ -139,9 +141,30 @@ CREATE TABLE tb_order (
     fk_id_product INT UNSIGNED    NOT NULL,
     int1_quantity INT             NOT NULL,
     dec_price     DECIMAL(13,2)   NOT NULL,
-    dtm_date      DATETIME        NOT NULL,
+    dtm_date      DATETIME        NOT NULL  DEFAULT CURRENT_TIMESTAMP,
 
     PRIMARY KEY (pk_id),
     CONSTRAINT fk_user    FOREIGN KEY (fk_id_user)    REFERENCES tb_user(pk_id),
     CONSTRAINT fk_product FOREIGN KEY (fk_id_product) REFERENCES tb_product(pk_id)
 );
+
+DELIMITER //
+CREATE FUNCTION fn_insert_order(
+    fk_id_user    INT UNSIGNED,
+    fk_id_product INT UNSIGNED,
+    int1_quantity INT,
+    dec_price     DECIMAL(13,2)
+)
+RETURNS INT UNSIGNED
+BEGIN
+    INSERT INTO tb_order (fk_id_user, fk_id_product , int1_quantity, dec_price)
+    VALUES (fk_id_user, fk_id_product , int1_quantity, dec_price);
+    RETURN LAST_INSERT_ID();
+END//
+DELIMITER ;
+
+CREATE VIEW vw_orders AS
+SELECT DISTINCT pk_id AS id, fk_id_user AS id_user, fk_id_product AS id_product, int1_quantity AS quantity,
+                dec_price AS price_paid, dtm_date AS date_
+FROM tb_order
+ORDER BY date_ DESC;

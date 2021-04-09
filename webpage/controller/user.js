@@ -20,22 +20,26 @@ function gotoproduct(id) {
 
 function getproduct(product) {
     return `
-    <div class="col">
-        <div class="card shadow-sm">
-            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" role="img" onclick=gotoproduct(` + product.id + `)>
-              <rect width="100%" height="100%" fill="#55595c"/>
-              <image xlink:href="` + product.img + `" x="0" y="0" height="100%" width="100%" preserveAspectRatio="none"/>
-            </svg>
-
-            <div class="card-body">
-                <h2>` + product.name  + `</h2>
-                <p><i>` + product.brand + ", " + product.model + `</i></p>
-                <p>R$` + product.price.toFixed(2) + `</p>
+    <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card h-100">
+                    <a href="` + product.id + `"><img class="card-img-top" src=" `+ product.img+ ` " alt=""></a>
+                    <div class="card-body">
+                        <h4 class="card-title">
+                            `+ product.name  + `
+                        </h4>
+                        <h5>R$` + product.price.toFixed(2) + `</h5>
+                        <p class="card-text">` + product.brand + ", " + product.model + ` Lorem ipsum dolor sit amet,
+                        consectetur adipisicing elit. Amet numquam aspernatur!</p>
+                    </div>
+                <div class="card-footer">
+                    <button class="btn btn-primary">Buy</button>
+                </div>
             </div>
-        </div>
-    </div>
-    `;
+    </div> 
+`;
 }
+
+
 
 function getproducts() {
     return products.getall().then((products) => {
