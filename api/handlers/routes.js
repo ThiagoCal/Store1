@@ -1,5 +1,6 @@
 const user = require("./user.js")
 const product = require("./product.js")
+const order = require("./order.js")
 
 let routes = [
     {method: "POST", endpoint: "/users", f: user.create},
@@ -7,10 +8,13 @@ let routes = [
     {method: "GET", endpoint: "/users", f: user.get},
     {method: "GET", endpoint: "/allusers", f: user.getAll},
     {method: "PUT", endpoint: "/users", f: user.update},
+    {method: "GET", endpoint: "/users/orders", f: order.getfromuser},
     {method: "POST", endpoint: "/products", f: product.create},
     {method: "GET", endpoint: "/products/:id", f: product.get},
     {method: "GET", endpoint: "/products", f: product.getAll},
     {method: "PUT", endpoint: "/products/:id", f: product.update},
+    {method: "POST", endpoint: "/orders", f: order.create},
+   
 ]
 
 exports.register = function(app) {

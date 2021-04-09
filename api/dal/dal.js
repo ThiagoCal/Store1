@@ -60,7 +60,7 @@ exports.getUser = function(user, callback) {
         if (err) {
             callback(null, {err: err})
         } else {
-            user.name = results[0].name;
+            user.name = results[0].name_;
             user.surname = results[0].surname;
             user.email = results[0].email;
             callback(user, null);
@@ -79,7 +79,7 @@ exports.getAll = function(callback) {
             let users = [];
             for (let i = 0; i < results.length; i++){
                 let user = {id:results[i].id,
-                            name:results[i].name,
+                            name:results[i].name_,
                             surname:results[i].surname,
                             email:results[i].email,
                 }
@@ -120,7 +120,7 @@ exports.getProduct = function(product, callback) {
         if (err) {
             callback({err: err})
         } else {
-            product.name = results[0].name;
+            product.name = results[0].name_;
             product.brand = results[0].brand;
             product.model = results[0].model;
             product.price = results[0].price;
@@ -141,7 +141,7 @@ exports.getAllProducts = function(callback) {
             for (let i = 0; i < results.length; i++){
                 let product = {
                     id:    results[i].id,
-                    name:  results[i].name,
+                    name:  results[i].name_,
                     brand: results[i].brand,
                     model: results[i].model,
                     price: results[i].price,
@@ -162,3 +162,50 @@ exports.updateProduct = function(product, callback) {
         callback(err);
     });
 };
+
+//-------------------ORDERS --------------//
+
+exports.createOrder = function(order, callback) {
+    let args = [order.user.id, order.product.id, order.quantity, order.price];
+    let query = "SELECT fn_insert_order(?, ?, ?, ?) AS id";
+    
+    db.query(query, args, (err, results) => {
+        if (err) {
+            callback(null, err);
+        } else {
+            order.id = results[0].id;
+            callback(order, null);
+        }
+    });
+};
+
+exports.getFromUser = function(user, callback) {
+    let query = "SELECT * FROM vw_order WHERE id_user = ?";
+    let args = [user.id];
+    db.query(query, args, (err, results)=>{
+        if (err) {
+            callback(null, {err: err})
+        } else {
+            let orders = [];
+            for (let i = 0; i < results.length; i++){
+                let order = {
+                    id:         results[i].id,
+                    price:      results[i].price,
+                    quantity:   results[i].quantity,
+                    date:       results[i].date_,
+                    user:user,
+                    product: {
+                        id:    results[i].id_product,
+                        name:  results[i].name_,
+                        brand: results[i].brand,
+                        model: results[i].model,
+                        img:   results[i].img,
+                    }
+                    
+                }
+                orders.push(order);
+            }
+            callback(orders, null);
+        }
+    })
+} 
