@@ -59,7 +59,7 @@ exports.create = function(req, res) {
         res.status(422).send("erro de validação: "+result.err);
         return;
     }
-    order.price = JSON.parse(order.price)/100
+    order.price = JSON.parse(order.price)
     dal.createOrder(order, (err) => {
         if(err !== null) {
             res.status(400).send(err);

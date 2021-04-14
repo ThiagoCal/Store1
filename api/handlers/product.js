@@ -67,7 +67,7 @@ exports.create = function(req, res) {
         res.status(422).send("erro de validação: "+result.err);
         return;
     }
-    product.price = JSON.parse(product.price)/100
+    product.price = JSON.parse(product.price)
     dal.createProduct(product, (product, err) => {
         if(err !== null) {
             if (err.errno === 1062){
@@ -140,7 +140,7 @@ exports.update = function (req, res) {
     } 
     product.id = req.params.id;
 
-    product.price = JSON.parse(product.price)/100
+    product.price = JSON.parse(product.price)
     dal.updateProduct(product, (err) => {i
         if(err !== null) {
             res.status(401).send("Não foi possível atualizar as informações do produto");
