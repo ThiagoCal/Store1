@@ -29,7 +29,6 @@ exports.teardown = function() {
 exports.createUser = function(user, callback) {
     let args = [user.name, user.surname, user.email, user.password];
     let query = "SELECT fn_insert_user(?, ?, ?, ?) AS id";
-    console.log(user);
     db.query(query, args, (err, results) => {
         if (err) {
             callback(null, err);
@@ -93,7 +92,6 @@ exports.getAll = function(callback) {
 exports.updateUser = function(user, callback) {
     let args = [user.id, user.name, user.surname, user.email, user.password];
     let query = "CALL pc_update_user(?, ?, ?, ?, ?);";
-    console.log(user);
     db.query(query, args, callback);
 }
 
@@ -102,7 +100,6 @@ exports.updateUser = function(user, callback) {
 exports.createProduct = function(product, callback) {
     let args = [product.name, product.brand, product.model, product.price, product.img];
     let query = "SELECT fn_insert_product(?, ?, ?, ?, ?) AS id";
-    console.log(product);
     db.query(query, args, (err, results) => {
         if (err) {
             callback(null, err);
@@ -157,7 +154,6 @@ exports.getAllProducts = function(callback) {
 exports.updateProduct = function(product, callback) {
     let args = [product.id, product.name, product.brand, product.model, product.price, product.img];
     let query = "CALL pc_update_product(?, ?, ?, ?, ?, ?);";
-    console.log(product);
     db.query(query, args, (err,result) =>{
         callback(err);
     });
@@ -190,7 +186,7 @@ exports.getFromUser = function(user, callback) {
             for (let i = 0; i < results.length; i++){
                 let order = {
                     id:         results[i].id,
-                    price:      results[i].price,
+                    price:      results[i].price_paid,
                     quantity:   results[i].quantity,
                     date:       results[i].date_,
                     user:user,

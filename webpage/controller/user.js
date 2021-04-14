@@ -22,7 +22,7 @@ function getproduct(i, product) {
     return `
     <div class="col-lg-4 col-md-6 mb-4">
             <div class="card h-100">
-                    <a href="` + product.id + `"><img class="card-img-top" src=" `+ product.img+ ` " alt=""></a>
+                    <img class="card-img-top" src=" `+ product.img+ ` " alt="">
                     <div class="card-body">
                         <h4 class="card-title">
                             `+ product.name  + `
@@ -74,7 +74,4 @@ $(document).ready(() => {
     console.log(token);
     getinfo(token);
     getproducts();
-    $("#meus-pedidos").onclick(() => {
-        window.location.href = "orders.html";
-    });
 });
