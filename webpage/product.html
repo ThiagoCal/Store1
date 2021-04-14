@@ -31,7 +31,7 @@
                         <a class="nav-link active" aria-current="page" href="#">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Sales</a>
+                        <a class="nav-link" href="#">Your orders</a>
                     </li>
                     <form class="d-flex">
                         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
@@ -56,34 +56,14 @@
 
 <body style="padding: 25px; margin: 10px;">
     
-<div class="container">
-    <div class="row">
-        <div class="col-4"></div>
-        <div class="col-4 border border-danger rounded">
-            <img id=product-img width="200px" height="200px">
-            <h3 id="product-name"></h3>
-            <i>
-                <span id="product-brand"></span>
-                ,
-                <span id="product-model"></span>
-            </i>
-            <div id="product-price"></div>
-            <br>
-            
-            Quantidade:
-            <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
-                <option selected value="0">0</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-            </select>
-            <br>
-            
-            <button class="btn btn-primary">Comprar!</button>
+    <div class="container">
+    
+
+        <div id="products" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            <!-- dynamic -->
         </div>
-        <div class="col-4"></div>
+
     </div>
-</div>
 
 </body>
 </html>

@@ -74,4 +74,7 @@ $(document).ready(() => {
     console.log(token);
     getinfo(token);
     getproducts();
+    $("#meus-pedidos").onclick(() => {
+        window.location.href = "orders.html";
+    });
 });
